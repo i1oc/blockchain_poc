@@ -26,11 +26,10 @@ typedef struct{
 void print_hash(const unsigned char *hash);
 int hash_equal(const unsigned char *hash_a, const unsigned char *hash_b);
 int hash_matches_difficulty(const unsigned char *hash);
-
+void calculate_block_hash(const block *b, unsigned char *out_hash);
 
 /* block */
 block create_block(uint32_t index, transaction trans, const unsigned char *prev_hash);
-void calculate_block_hash(const block *b, unsigned char *out_hash);
 block create_genesis_block(void);
 
 /* chain */

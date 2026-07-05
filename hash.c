@@ -29,3 +29,16 @@ void calculate_block_hash(const block *b, unsigned char *out_hash){
 }
 
 
+int hash_equal(const unsigned char *hash_a, const unsigned char *hash_b){
+    /*
+    for (size_t i = 0; i < HASH_SIZE; i++)    
+    {
+        if (hash_a[i] != hash_b[i]) {
+            return 0;
+        } 
+    }
+    
+    return 1;
+    */
+    return memcmp(hash_a, hash_b, HASH_SIZE) == 0;
+}

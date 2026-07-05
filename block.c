@@ -30,12 +30,10 @@ block create_block(uint32_t index, transaction trans, const unsigned char *prev_
 }
 
 block create_genesis_block(void){
-    block blq;
+    unsigned char prev[HASH_SIZE] = {0};
 
-    transaction trans;
+    transaction t = create_transaction(SYSTEM_ID, SYSTEM_ID, 0);
+    block b = create_block(0, t, prev);
 
-    blq.index = 0;
-    blq.trans = trans;
-    blq.timestamp = (uint64_t) time(NULL);
-
+    return b;
 }
