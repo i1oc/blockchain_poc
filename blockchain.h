@@ -35,6 +35,7 @@ block create_genesis_block(void);
 /* chain */
 chain create_chain(int difficulty);
 int add_block(chain *ch, transaction trans);
+int validate_chain(const chain *ch);
 
 
 #endif

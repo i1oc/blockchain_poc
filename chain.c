@@ -38,4 +38,23 @@ int add_block(chain *ch, transaction trans){
     ch->size++;
     return 1;
 }
+
+
+int validate_chain(const chain *ch){
+    for (int i = 1; i < ch->size; i++) {
+        const block *b = &ch->blocks[i];
+
+        if (b->index != (uint32_t) i) { return 0; }
+
+        if (!hash_equal(b->prev_block_hash, ch->blocks[i - 1].curr_block_hash)) { return 0; }
+
+        unsigned char recalculado[HASH_SIZE];
+        calculate_block_hash(b, recalculado);
+        if (!hash_equal(recalculado, b->curr_block_hash)) { return 0; }
+
+        if (!hash_matches_difficulty(b->curr_block_hash, ch->difficulty)) { return 0; }
+    }
+
+    return 1;
+}
     

@@ -86,5 +86,21 @@ int main(void) {
     printf("tx invalida rechazada:  %s\n",
            (rechazada && ch.size == size_antes) ? "OK" : "FALLO");
 
+    /* ---- el experimento: validate_chain detecta manipulaciones ---- */
+    printf("\n== validate_chain ==\n");
+
+    /* la cadena recien construida debe ser valida */
+    printf("cadena intacta:         %s\n",
+           validate_chain(&ch) ? "OK" : "FALLO");
+
+    /* manipulamos una transaccion antigua: el hash guardado ya no casa, incluso recalculando algun otro */
+    ch.blocks[1].trans.quantity = 999;
+    printf("tras manipular tx:      %s\n",
+           !validate_chain(&ch) ? "OK (detectada)" : "FALLO (no detectada)");
+
+    calculate_block_hash(&ch.blocks[1], ch.blocks[1].curr_block_hash);
+    printf("tras recalcular hash:   %s\n",
+           !validate_chain(&ch) ? "OK (detectada)" : "FALLO (no detectada)");
+
     return 0;
 }
