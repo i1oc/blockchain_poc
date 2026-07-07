@@ -25,7 +25,7 @@ typedef struct{
 /* hash */
 void print_hash(const unsigned char *hash);
 int hash_equal(const unsigned char *hash_a, const unsigned char *hash_b);
-int hash_matches_difficulty(const unsigned char *hash);
+int hash_matches_difficulty(const unsigned char *hash, int difficulty);
 void calculate_block_hash(const block *b, unsigned char *out_hash);
 
 /* block */

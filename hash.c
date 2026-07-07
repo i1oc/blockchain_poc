@@ -2,6 +2,7 @@
 #include <openssl/evp.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <string.h>
 
 void print_hash(const unsigned char *hash){
 
@@ -40,5 +41,14 @@ int hash_equal(const unsigned char *hash_a, const unsigned char *hash_b){
     
     return 1;
     */
-    return memcmp(hash_a, hash_b, HASH_SIZE) == 0;
+    return memcmp(hash_a, hash_b, HASH_SIZE) == 0; // memcmp es al reves por lo que necesitamos invertirlo
+}
+
+int hash_matches_difficulty(const unsigned char *hash, int difficulty){
+
+    if (difficulty <= 0){return 1;}
+    if (difficulty > HASH_SIZE){return 0;}
+
+    unsigned char zeros[HASH_SIZE] = {0}; // creamos un vector de todo ceros    
+    return memcmp(hash, zeros, (size_t) difficulty) == 0;
 }
