@@ -12,7 +12,7 @@ typedef struct {
 } transaction;
 
 transaction create_transaction(uint32_t senderId, uint32_t receiverId, uint32_t quantity);
-int is_transaction_basic_valid(transaction trans);
+int is_transaction_valid(transaction trans);
 void print_transaction(transaction trans);
 
 #endif

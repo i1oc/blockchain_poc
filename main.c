@@ -57,5 +57,34 @@ int main(void) {
     printf("dificultad 99:          %s\n",
            !hash_matches_difficulty(fabricado, 99) ? "OK" : "FALLO");
 
+    /* ---- tests de la chain completa: crear, minar, enlazar ---- */
+    chain ch = create_chain(3);
+    printf("\n== chain con dificultad %d ==\n", ch.difficulty);
+
+    if (!add_block(&ch, create_transaction(1, 2, 100))) { printf("fallo anadiendo bloque 1\n"); }
+    if (!add_block(&ch, create_transaction(2, 3, 25)))  { printf("fallo anadiendo bloque 2\n"); }
+    if (!add_block(&ch, create_transaction(3, 1, 60)))  { printf("fallo anadiendo bloque 3\n"); }
+
+    for (int i = 0; i < ch.size; i++) {
+        printf("bloque %u | nonce %6u | hash: ", ch.blocks[i].index, ch.blocks[i].nonce);
+        print_hash(ch.blocks[i].curr_block_hash);
+        printf("\n");
+    }
+
+    /* el prev_hash de cada bloque debe ser el curr_hash del anterior */
+    int enlaces_ok = 1;
+    for (int i = 1; i < ch.size; i++) {
+        if (!hash_equal(ch.blocks[i].prev_block_hash, ch.blocks[i - 1].curr_block_hash)) {
+            enlaces_ok = 0;
+        }
+    }
+    printf("enlaces de la cadena:   %s\n", enlaces_ok ? "OK" : "FALLO");
+
+    /* una transaccion invalida debe rechazarse sin tocar la chain */
+    int size_antes = ch.size;
+    int rechazada = !add_block(&ch, create_transaction(5, 5, 0));
+    printf("tx invalida rechazada:  %s\n",
+           (rechazada && ch.size == size_antes) ? "OK" : "FALLO");
+
     return 0;
 }
