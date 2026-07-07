@@ -32,7 +32,9 @@ void calculate_block_hash(const block *b, unsigned char *out_hash);
 block create_block(uint32_t index, transaction trans, const unsigned char *prev_hash);
 block create_genesis_block(void);
 
+
+
 /* chain */
-chain create_chain(block *genesis_block, int difficulty, int size);
+chain create_chain(int difficulty);
 
 #endif

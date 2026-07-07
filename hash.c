@@ -5,7 +5,6 @@
 #include <string.h>
 
 void print_hash(const unsigned char *hash){
-
     for (size_t i = 0; i < HASH_SIZE; i++)
     {
         printf("%02x",*(hash + i));
@@ -31,24 +30,13 @@ void calculate_block_hash(const block *b, unsigned char *out_hash){
 
 
 int hash_equal(const unsigned char *hash_a, const unsigned char *hash_b){
-    /*
-    for (size_t i = 0; i < HASH_SIZE; i++)    
-    {
-        if (hash_a[i] != hash_b[i]) {
-            return 0;
-        } 
-    }
-    
-    return 1;
-    */
     return memcmp(hash_a, hash_b, HASH_SIZE) == 0; // memcmp es al reves por lo que necesitamos invertirlo
 }
 
 int hash_matches_difficulty(const unsigned char *hash, int difficulty){
-
     if (difficulty <= 0){return 1;}
     if (difficulty > HASH_SIZE){return 0;}
 
-    unsigned char zeros[HASH_SIZE] = {0}; // creamos un vector de todo ceros    
+    unsigned char zeros[HASH_SIZE] = {0};  
     return memcmp(hash, zeros, (size_t) difficulty) == 0;
 }
